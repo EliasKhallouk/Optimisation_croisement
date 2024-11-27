@@ -181,10 +181,10 @@ TSolution Croisement(TSolution Parent1, TSolution Parent2, TProblem unProb, TAlg
     }
 
     // Compter le nombre de 1 dans la solution enfant
-    int count = std::count(Enfant.Selec.begin(), Enfant.Selec.end(), true);
-
-    // Si le nombre de 1 n'est pas égal à unAlgo.TaillePop, ajuster aléatoirement
-    if (count != unAlgo.TaillePop)
+	int count = std::count(Enfant.Selec.begin(), Enfant.Selec.end(), true);
+	
+	// Si le nombre de 1 n'est pas égal à unProb.M, ajuster aléatoirement
+	if (count != unProb.M)
     {
         // Si trop de 1, désélectionner aléatoirement
         while (count > unAlgo.TaillePop)
