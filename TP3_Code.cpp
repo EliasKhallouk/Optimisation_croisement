@@ -179,10 +179,17 @@ TSolution Croisement(TSolution Parent1, TSolution Parent2, TProblem unProb, TAlg
     {
         Enfant.Selec[i] = Parent1.Selec[i] & Parent2.Selec[i];
     }
-
+	afficherSolution(Parent1, unProb);
+	afficherSolution(Parent2, unProb);
+	afficherSolution(Enfant, unProb);
     // Compter le nombre de 1 dans la solution enfant
-	int count = std::count(Enfant.Selec.begin(), Enfant.Selec.end(), true);
-	
+	int count = 0;
+	for (int i = 0; i < unProb.N; i++)
+    {
+        if (Enfant.Selec[i] == 1){
+			count++;
+		}
+    }
 	// Si le nombre de 1 n'est pas égal à unProb.M, ajuster aléatoirement
 	if (count != unProb.M)
     {
@@ -207,6 +214,9 @@ TSolution Croisement(TSolution Parent1, TSolution Parent2, TProblem unProb, TAlg
                 count++;
             }
         }
+		afficherSolution(Parent1, unProb);
+		afficherSolution(Parent2, unProb);
+		afficherSolution(Enfant, unProb);
     }
 
    //**NE PAS ENLEVER
