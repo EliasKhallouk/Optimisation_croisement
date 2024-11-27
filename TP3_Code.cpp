@@ -179,9 +179,9 @@ TSolution Croisement(TSolution Parent1, TSolution Parent2, TProblem unProb, TAlg
     {
         Enfant.Selec[i] = Parent1.Selec[i] & Parent2.Selec[i];
     }
-	afficherSolution(Parent1, unProb);
-	afficherSolution(Parent2, unProb);
-	afficherSolution(Enfant, unProb);
+	AfficherUneSolution(Parent1, unProb);
+	AfficherUneSolution(Parent2, unProb);
+	AfficherUneSolution(Enfant, unProb);
     // Compter le nombre de 1 dans la solution enfant
 	int count = 0;
 	for (int i = 0; i < unProb.N; i++)
@@ -190,6 +190,8 @@ TSolution Croisement(TSolution Parent1, TSolution Parent2, TProblem unProb, TAlg
 			count++;
 		}
     }
+	printf("count: %d\n", count);
+	printf("M: %d\n", unProb.M);
 	// Si le nombre de 1 n'est pas égal à unProb.M, ajuster aléatoirement
 	if (count != unProb.M)
     {
@@ -214,9 +216,9 @@ TSolution Croisement(TSolution Parent1, TSolution Parent2, TProblem unProb, TAlg
                 count++;
             }
         }
-		afficherSolution(Parent1, unProb);
-		afficherSolution(Parent2, unProb);
-		afficherSolution(Enfant, unProb);
+		AfficherUneSolution(Parent1, unProb);
+		AfficherUneSolution(Parent2, unProb);
+		AfficherUneSolution(Enfant, unProb);
     }
 
    //**NE PAS ENLEVER
