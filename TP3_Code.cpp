@@ -1,5 +1,6 @@
 #include "Entete.h"
 #pragma comment (lib,"GeneticDLL.lib")
+#include <chrono>
 //%%%%%%%%%%%%%%%%%%%%%%%%% IMPORTANT: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 //Le fichier de probleme (.txt) et les fichiers de la DLL (GeneticDLL.dll et GeneticDLL.lib) doivent se trouver dans le r�pertoire courant du projet pour une ex�cution � l'aide du compilateur. 
 //Indiquer les arguments du programme dans les propri�t�s du projet - d�bogage - arguments.
@@ -72,6 +73,7 @@ int main(int NbParam, char* Param[])
 	int i;
 	double Alea;
 	string NomFichier;
+	auto start = std::chrono::high_resolution_clock::now();
 
 	//**Lecture des param�tres
 	NomFichier.assign(Param[1]);
@@ -154,6 +156,10 @@ int main(int NbParam, char* Param[])
 
 	LibererMemoireFinPgm(Pop, PopEnfant, Best, LeProb, LAlgo);
 	//system("PAUSE");
+	auto end = std::chrono::high_resolution_clock::now();
+	auto int_s = std::chrono::duration_cast<std::chrono::seconds>(end - start);
+	std::cout << "temps pris : " << int_s.count() << " seconds "
+		<< std::endl;
 	return 0;
 }
 
