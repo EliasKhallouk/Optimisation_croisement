@@ -244,8 +244,17 @@ void Remplacement(std::vector<TSolution>& Parents, std::vector<TSolution> Enfant
 	AfficherPopulation(Temporaire, unAlgo.Gen, unProb);
 	printf("FIN\n");
 
-	for (int i = 0; i < unAlgo.TaillePop; i++)
-		Parents[i] = Temporaire[i];
+	std::set<std::vector<bool>> uniqueSolutions;
+	int index = 0;
+	for (int i = 0; i < unAlgo.TaillePop && index < Temporaire.size(); i++) {
+		while (index < Temporaire.size() && !uniqueSolutions.insert(Temporaire[index].Selec).second) {
+			index++;
+		}
+		if (index < Temporaire.size()) {
+			Parents[i] = Temporaire[index];
+			index++;
+		}
+	}
 	//**A LA FIN: Liberation de la population temporaire
 	//int i;
 	//for (i = 0; i < Temporaire.size(); i++)
