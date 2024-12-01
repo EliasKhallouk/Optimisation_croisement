@@ -217,7 +217,7 @@ TSolution Croisement(TSolution Parent1, TSolution Parent2, TProblem unProb, TAlg
 
 	//**NE PAS ENLEVER
 	EvaluerSolution(Enfant, unProb, unAlgo);
-	AfficherUneSolution(Enfant, unProb);
+	//AfficherUneSolution(Enfant, unProb);
 	return Enfant;
 }
 
@@ -243,12 +243,12 @@ void Remplacement(std::vector<TSolution>& Parents, std::vector<TSolution> Enfant
 	Temporaire.insert(Temporaire.end(), Parents.begin(), Parents.end());
 	Temporaire.insert(Temporaire.end(), Enfants.begin(), Enfants.end());
 	//**Pour trier toute la population temporaire, il suffit de faire l'appel suivant: TrierPopulation(Temporaire, 0, unGen.TaillePop+unGen.TaillePopEnfant);
-	printf("population avant\n");
-	AfficherPopulation(Temporaire, unAlgo.Gen, unProb);
+	//printf("population avant\n");
+	//AfficherPopulation(Temporaire, unAlgo.Gen, unProb);
 	TrierPopulation(Temporaire, 0, Temporaire.size());
-	printf("population apres\n");
-	AfficherPopulation(Temporaire, unAlgo.Gen, unProb);
-	printf("FIN\n");
+	//printf("population apres\n");
+	//AfficherPopulation(Temporaire, unAlgo.Gen, unProb);
+	//printf("FIN\n");
 
 	// Sélectionne les meilleurs individus pour former la nouvelle population de parents
 	Parents.clear();
@@ -293,33 +293,3 @@ void Remplacement(std::vector<TSolution>& Parents, std::vector<TSolution> Enfant
 		//Temporaire[i].Seq.clear();
 	Temporaire.clear();
 }
-
-/*
-void Remplacement(std::vector<TSolution>& Parents, std::vector<TSolution> Enfants, TProblem unProb, TAlgo unAlgo)
-{
-	// Combine parents and children into a single temporary population
-	std::vector<TSolution> Temporaire;
-	Temporaire.reserve(unAlgo.TaillePop + unAlgo.TaillePopEnfant);
-	Temporaire.insert(Temporaire.end(), Parents.begin(), Parents.end());
-	Temporaire.insert(Temporaire.end(), Enfants.begin(), Enfants.end());
-
-	// Sort the temporary population based on fitness (descending order)
-	TrierPopulation(Temporaire, 0, Temporaire.size());
-
-	// Select the top individuals to form the new parent population
-	Parents.clear();
-	std::set<std::vector<bool>> uniqueSolutions;
-	for (const auto& sol : Temporaire) {
-		if (uniqueSolutions.insert(sol.Selec).second) {
-			Parents.push_back(sol);
-			if (Parents.size() == unAlgo.TaillePop) {
-				break;
-			}
-		}
-	}
-
-	// Ensure that the parent population has the correct size
-	while (Parents.size() < unAlgo.TaillePop) {
-		Parents.push_back(Temporaire[Parents.size()]);
-	}
-}*/
