@@ -244,17 +244,43 @@ void Remplacement(std::vector<TSolution>& Parents, std::vector<TSolution> Enfant
 	AfficherPopulation(Temporaire, unAlgo.Gen, unProb);
 	printf("FIN\n");
 
-	std::set<std::vector<bool>> uniqueSolutions;
-	int index = 0;
-	for (int i = 0; i < unAlgo.TaillePop && index < Temporaire.size(); i++) {
-		while (index < Temporaire.size() && !uniqueSolutions.insert(Temporaire[index].Selec).second) {
-			index++;
-		}
-		if (index < Temporaire.size()) {
-			Parents[i] = Temporaire[index];
-			index++;
-		}
-	}
+	// Sélectionne les meilleurs individus pour former la nouvelle population de parents
+    Parents.clear();
+    std::vector<std::vector<bool>> uniqueSolutions;
+    for (const auto& sol : Temporaire) {
+        bool isUnique = true;
+        for (const auto& uniqueSol : uniqueSolutions) {
+            if (sol.Selec == uniqueSol) {
+                isUnique = false;
+                break;
+            }
+        }
+        if (isUnique) {
+            uniqueSolutions.push_back(sol.Selec);
+            Parents.push_back(sol);
+            if (Parents.size() == unAlgo.TaillePop) {
+                break;
+            }
+        }
+    }
+
+    // Assure que la population de parents a la taille correcte
+    size_t index = 0;
+    while (Parents.size() < unAlgo.TaillePop && index < Temporaire.size()) {
+        bool isUnique = true;
+        for (const auto& uniqueSol : uniqueSolutions) {
+            if (Temporaire[index].Selec == uniqueSol) {
+                isUnique = false;
+                break;
+            }
+        }
+        if (isUnique) {
+            uniqueSolutions.push_back(Temporaire[index].Selec);
+            Parents.push_back(Temporaire[index]);
+        }
+        ++index;
+    }
+	
 	//**A LA FIN: Liberation de la population temporaire
 	//int i;
 	//for (i = 0; i < Temporaire.size(); i++)
