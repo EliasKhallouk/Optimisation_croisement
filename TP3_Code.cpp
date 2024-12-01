@@ -251,42 +251,42 @@ void Remplacement(std::vector<TSolution>& Parents, std::vector<TSolution> Enfant
 	printf("FIN\n");
 
 	// Sélectionne les meilleurs individus pour former la nouvelle population de parents
-    Parents.clear();
-    std::vector<std::vector<bool>> uniqueSolutions;
-    for (const auto& sol : Temporaire) {
-        bool isUnique = true;
-        for (const auto& uniqueSol : uniqueSolutions) {
-            if (sol.Selec == uniqueSol) {
-                isUnique = false;
-                break;
-            }
-        }
-        if (isUnique) {
-            uniqueSolutions.push_back(sol.Selec);
-            Parents.push_back(sol);
-            if (Parents.size() == unAlgo.TaillePop) {
-                break;
-            }
-        }
-    }
+	Parents.clear();
+	std::vector<std::vector<bool>> SolutionsUniques;
+	for (const auto& Solution : Temporaire) {
+		bool estUnique = true;
+		for (size_t j = 0; j < SolutionsUniques.size(); ++j) {
+			if (Solution.Selec == SolutionsUniques[j]) {
+				estUnique = false;
+				break;
+			}
+		}
+		if (estUnique) {
+			SolutionsUniques.push_back(Solution.Selec);
+			Parents.push_back(Solution);
+			if (Parents.size() == unAlgo.TaillePop) {
+				break;
+			}
+		}
+	}
 
-    // Assure que la population de parents a la taille correcte
-    size_t index = 0;
-    while (Parents.size() < unAlgo.TaillePop && index < Temporaire.size()) {
-        bool isUnique = true;
-        for (const auto& uniqueSol : uniqueSolutions) {
-            if (Temporaire[index].Selec == uniqueSol) {
-                isUnique = false;
-                break;
-            }
-        }
-        if (isUnique) {
-            uniqueSolutions.push_back(Temporaire[index].Selec);
-            Parents.push_back(Temporaire[index]);
-        }
-        ++index;
-    }
-	
+	// Assure que la population de parents a la taille correcte
+	size_t index = 0;
+	while (Parents.size() < unAlgo.TaillePop && index < Temporaire.size()) {
+		bool estUnique = true;
+		for (size_t j = 0; j < SolutionsUniques.size(); ++j) {
+			if (Temporaire[index].Selec == SolutionsUniques[j]) {
+				estUnique = false;
+				break;
+			}
+		}
+		if (estUnique) {
+			SolutionsUniques.push_back(Temporaire[index].Selec);
+			Parents.push_back(Temporaire[index]);
+		}
+		++index;
+	}
+
 	//**A LA FIN: Liberation de la population temporaire
 	//int i;
 	//for (i = 0; i < Temporaire.size(); i++)
