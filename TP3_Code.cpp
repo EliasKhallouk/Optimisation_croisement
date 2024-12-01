@@ -232,13 +232,48 @@ void Remplacement(std::vector<TSolution>& Parents, std::vector<TSolution> Enfant
 	//INFOS pour d�finir votre methode de remplacement...
 
 	//**Declaration et dimension dynamique d'une population temporaire pour contenir tous les parents et les enfants
-	//std::vector<TSolution> Temporaire;
-	//Temporaire.resize(unAlgo.TaillePop + unAlgo.TaillePopEnfant);
+	std::vector<TSolution> Temporaire;
+	Temporaire.resize(unAlgo.TaillePop + unAlgo.TaillePopEnfant);
+	Temporaire.insert(Temporaire.end(), Parents.begin(), Parents.end());
+	Temporaire.insert(Temporaire.end(), Enfants.begin(), Enfants.end());
 	//**Pour trier toute la population temporaire, il suffit de faire l'appel suivant: TrierPopulation(Temporaire, 0, unGen.TaillePop+unGen.TaillePopEnfant);
 
+	TrierPopulation(Temporaire, 0, Temporaire.size());
+
+	AfficherPopulation(Temporaire, LAlgo.Gen, LeProb);
 	//**A LA FIN: Liberation de la population temporaire
-	//int i;
-	//for (i = 0; i < Temporaire.size(); i++)
-	//	Temporaire[i].Seq.clear();
-	//Temporaire.clear();
+	int i;
+	for (i = 0; i < Temporaire.size(); i++)
+		Temporaire[i].Seq.clear();
+	Temporaire.clear();
 }
+
+/*
+void Remplacement(std::vector<TSolution>& Parents, std::vector<TSolution> Enfants, TProblem unProb, TAlgo unAlgo)
+{
+	// Combine parents and children into a single temporary population
+	std::vector<TSolution> Temporaire;
+	Temporaire.reserve(unAlgo.TaillePop + unAlgo.TaillePopEnfant);
+	Temporaire.insert(Temporaire.end(), Parents.begin(), Parents.end());
+	Temporaire.insert(Temporaire.end(), Enfants.begin(), Enfants.end());
+
+	// Sort the temporary population based on fitness (descending order)
+	TrierPopulation(Temporaire, 0, Temporaire.size());
+
+	// Select the top individuals to form the new parent population
+	Parents.clear();
+	std::set<std::vector<bool>> uniqueSolutions;
+	for (const auto& sol : Temporaire) {
+		if (uniqueSolutions.insert(sol.Selec).second) {
+			Parents.push_back(sol);
+			if (Parents.size() == unAlgo.TaillePop) {
+				break;
+			}
+		}
+	}
+
+	// Ensure that the parent population has the correct size
+	while (Parents.size() < unAlgo.TaillePop) {
+		Parents.push_back(Temporaire[Parents.size()]);
+	}
+}*/
