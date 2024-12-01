@@ -6,7 +6,7 @@
 //Indiquer les arguments du programme dans les propri�t�s du projet - d�bogage - arguments.
 //Sinon, utiliser le r�pertoire execution.
 //NB: le projet actuel doit etre compile dans le meme mode (DEBUG ou RELEASE) que les fichiers de DLL - par defaut en RELEASE
-
+ 
 //*****************************************************************************************
 // Prototype/description des fonctions se trouvant dans la DLL 
 //*****************************************************************************************
