@@ -157,8 +157,8 @@ int main(int NbParam, char* Param[])
 	LibererMemoireFinPgm(Pop, PopEnfant, Best, LeProb, LAlgo);
 	//system("PAUSE");
 	auto end = std::chrono::high_resolution_clock::now();
-	auto int_s = std::chrono::duration_cast<std::chrono::seconds>(end - start);
-	std::cout << "temps pris : " << int_s.count() << " seconds "
+	auto int_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+	std::cout << "temps pris : " << int_ms.count() << " milliseconds "
 		<< std::endl;
 	return 0;
 }
