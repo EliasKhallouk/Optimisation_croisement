@@ -84,6 +84,12 @@ int main(int NbParam, char* Param[])
 	LAlgo.TaillePopEnfant = (int)ceil(LAlgo.TaillePop * LAlgo.ProbCr);
 	LAlgo.Gen = 0;
 
+	// Vérifier si TaillePop est supérieure au nombre d'éléments dans le problème
+	if (LAlgo.TaillePop > 7) {
+		std::cerr << "Erreur : TaillePop ne peut pas être supérieure au nombre d'éléments dans le problème." << std::endl;
+		return 1;
+	}
+
 	srand((unsigned)time(NULL));				//**Precise un germe pour le generateur aleatoire
 
 	//**D�finition de la dimension des tableaux
