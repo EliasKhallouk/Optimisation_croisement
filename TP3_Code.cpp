@@ -272,7 +272,7 @@ void Remplacement(std::vector<TSolution>& Parents, std::vector<TSolution> Enfant
 	}
 
 	// Assure que la population de parents a la taille correcte
-	size_t index = 0;
+	/*size_t index = 0;
 	while (Parents.size() < unAlgo.TaillePop && index < Temporaire.size()) {
 		bool estUnique = true;
 		for (size_t j = 0; j < SolutionsUniques.size(); ++j) {
@@ -286,6 +286,12 @@ void Remplacement(std::vector<TSolution>& Parents, std::vector<TSolution> Enfant
 			Parents.push_back(Temporaire[index]);
 		}
 		++index;
+	}*/
+	// Si la population de parents n'a pas la taille correcte, créer des solutions aléatoires pour compléter
+	while (Parents.size() < unAlgo.TaillePop) {
+		TSolution nouvelleSolution;
+		CreerSolutionAleatoire(nouvelleSolution, unProb, unAlgo);
+		Parents.push_back(nouvelleSolution);
 	}
 
 	//**A LA FIN: Liberation de la population temporaire
