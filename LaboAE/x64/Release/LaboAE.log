@@ -1,8 +1,8 @@
 ﻿  TP3_Code.cpp
-C:\Users\kimvr\Documents\TPs Recherche Opérationnelle\TP3\Optimisation_croisement\TP3_Code.cpp(248,48): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\kimvr\Documents\TPs Recherche Opérationnelle\TP3\Optimisation_croisement\TP3_Code.cpp(252,48): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
   Génération de code en cours
-  1 of 500 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  2 of 496 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    4 functions had inline decision re-evaluated but remain unchanged
   Fin de la génération du code
   LaboAE.vcxproj -> C:\Users\kimvr\Documents\TPs Recherche Opérationnelle\TP3\Optimisation_croisement\x64\Release\LaboAE.exe

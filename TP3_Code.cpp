@@ -1,6 +1,5 @@
 #include "Entete.h"
 #pragma comment (lib,"GeneticDLL.lib")
-#include <chrono>
 //%%%%%%%%%%%%%%%%%%%%%%%%% IMPORTANT: %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 //Le fichier de probleme (.txt) et les fichiers de la DLL (GeneticDLL.dll et GeneticDLL.lib) doivent se trouver dans le r�pertoire courant du projet pour une ex�cution � l'aide du compilateur. 
 //Indiquer les arguments du programme dans les propri�t�s du projet - d�bogage - arguments.
@@ -73,7 +72,6 @@ int main(int NbParam, char* Param[])
 	int i;
 	double Alea;
 	string NomFichier;
-	auto start = std::chrono::high_resolution_clock::now();
 
 	//**Lecture des param�tres
 	NomFichier.assign(Param[1]);
@@ -157,10 +155,6 @@ int main(int NbParam, char* Param[])
 
 	LibererMemoireFinPgm(Pop, PopEnfant, Best, LeProb, LAlgo);
 	//system("PAUSE");
-	auto end = std::chrono::high_resolution_clock::now();
-	auto int_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-	std::cout << "temps pris : " << int_ms.count() << " milliseconds "
-		<< std::endl;
 	return 0;
 }
 
@@ -176,10 +170,8 @@ TSolution Croisement(TSolution Parent1, TSolution Parent2, TProblem unProb, TAlg
 	//**Pour tirer un nombre al�atoire entier entre 0 et MAX-1 inclusivement, il suffit d'utiliser l'instruction suivante : NombreAleatoire = rand() % MAX;
 
 	TSolution Enfant;
-	Enfant.Selec.resize(unProb.N, false);
-
 	//Pour dimensionner le vecteur solution de Enfant
-	//Enfant.Selec.resize(unProb.N, false);
+	Enfant.Selec.resize(unProb.N, false);
 
 	// Croisement binaire arithmétique par AND
 	for (int i = 0; i < unProb.N; i++) {
@@ -216,9 +208,8 @@ TSolution Croisement(TSolution Parent1, TSolution Parent2, TProblem unProb, TAlg
 		}
 	}
 
-	//**NE PAS ENLEVER
+	//**NE PAS ENLEVER : Evaluer la nouvelle solution enfant 
 	EvaluerSolution(Enfant, unProb, unAlgo);
-	//AfficherUneSolution(Enfant, unProb);
 	return Enfant;
 }
 
@@ -234,9 +225,7 @@ TSolution Croisement(TSolution Parent1, TSolution Parent2, TProblem unProb, TAlg
 //********************************************************************************************************* 
 void Remplacement(std::vector<TSolution>& Parents, std::vector<TSolution> Enfants, TProblem unProb, TAlgo unAlgo)
 {
-	//METHODE ACTUELLE BIDON: La population Parent demeure inchang�e   -    a modifier
-
-	//INFOS pour d�finir votre methode de remplacement...
+	//Méthode élitiste par gestion de doublons
 
 	//**Declaration et dimension dynamique d'une population temporaire pour contenir tous les parents et les enfants
 	std::vector<TSolution> Temporaire;
@@ -244,14 +233,10 @@ void Remplacement(std::vector<TSolution>& Parents, std::vector<TSolution> Enfant
 	Temporaire.insert(Temporaire.end(), Parents.begin(), Parents.end());
 	Temporaire.insert(Temporaire.end(), Enfants.begin(), Enfants.end());
 	//**Pour trier toute la population temporaire, il suffit de faire l'appel suivant: TrierPopulation(Temporaire, 0, unGen.TaillePop+unGen.TaillePopEnfant);
-	//printf("population avant\n");
-	//AfficherPopulation(Temporaire, unAlgo.Gen, unProb);
 	TrierPopulation(Temporaire, 0, Temporaire.size());
-	//printf("population apres\n");
-	//AfficherPopulation(Temporaire, unAlgo.Gen, unProb);
-	//printf("FIN\n");
 
-	// Sélectionne les meilleurs individus pour former la nouvelle population de parents
+	// Sélectionne les individus uniques pour former la nouvelle population de parents
+	// Puisque Temporaire est trié, les solutions seront également triées dans SolutionsUniques
 	Parents.clear();
 	std::vector<std::vector<bool>> SolutionsUniques;
 	for (const auto& Solution : Temporaire) {
@@ -262,6 +247,7 @@ void Remplacement(std::vector<TSolution>& Parents, std::vector<TSolution> Enfant
 				break;
 			}
 		}
+		// Ajouter les solutions uniques à parents
 		if (estUnique) {
 			SolutionsUniques.push_back(Solution.Selec);
 			Parents.push_back(Solution);
@@ -271,22 +257,6 @@ void Remplacement(std::vector<TSolution>& Parents, std::vector<TSolution> Enfant
 		}
 	}
 
-	// Assure que la population de parents a la taille correcte
-	/*size_t index = 0;
-	while (Parents.size() < unAlgo.TaillePop && index < Temporaire.size()) {
-		bool estUnique = true;
-		for (size_t j = 0; j < SolutionsUniques.size(); ++j) {
-			if (Temporaire[index].Selec == SolutionsUniques[j]) {
-				estUnique = false;
-				break;
-			}
-		}
-		if (estUnique) {
-			SolutionsUniques.push_back(Temporaire[index].Selec);
-			Parents.push_back(Temporaire[index]);
-		}
-		++index;
-	}*/
 	// Si la population de parents n'a pas la taille correcte, créer des solutions aléatoires pour compléter
 	while (Parents.size() < unAlgo.TaillePop) {
 		TSolution nouvelleSolution;
@@ -295,8 +265,5 @@ void Remplacement(std::vector<TSolution>& Parents, std::vector<TSolution> Enfant
 	}
 
 	//**A LA FIN: Liberation de la population temporaire
-	//int i;
-	//for (i = 0; i < Temporaire.size(); i++)
-		//Temporaire[i].Seq.clear();
 	Temporaire.clear();
 }
